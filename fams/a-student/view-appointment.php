@@ -42,6 +42,12 @@ if (strlen($_SESSION['famsid']) == 0) {
 
     <!-- APP MAIN ==========-->
     <main id="app-main" class="app-main">
+    <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard.php">Sidebar</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Apppointments</li>
+            </ol>
+        </nav>
         <div class="wrap">
             <section class="app-content">
                 <div class="row">
