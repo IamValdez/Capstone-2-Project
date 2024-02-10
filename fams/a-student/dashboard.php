@@ -142,8 +142,8 @@ window.addEventListener('popstate', function () {
 
             <div class="pull-left">
                 <?php 
-                $facid = $_SESSION['famsid'];
-                $sql = "SELECT * FROM tblappointment WHERE ID = :facid";
+                $facid = $_SESSION['famsemailid'];
+                $sql = "SELECT * FROM tblappointment WHERE user_ID = :facid";
                 $query = $dbh->prepare($sql);
                 $query->bindParam(':facid', $facid, PDO::PARAM_STR);
                 $query->execute();

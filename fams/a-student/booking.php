@@ -158,7 +158,7 @@ if (isset($_POST['submit'])) {
 </script>';
     } else {
 
-        $sql = "insert into tblappointment(AppointmentNumber,Name,MobileNumber,user_ID,Email,AppointmentDate,AppointmentTime,Specialization,Faculty,Message)values(:aptnumber, :Fname,:STid,:mobnum,:email,:appdate,:aaptime,:specialization,:facultylist,:message)";
+        $sql = "insert into tblappointment(AppointmentNumber,Name,user_ID,MobileNumber,Email,AppointmentDate,AppointmentTime,Specialization,Faculty,Message)values(:aptnumber, :Fname,:STid,:mobnum,:email,:appdate,:aaptime,:specialization,:facultylist,:message)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':aptnumber', $aptnumber, PDO::PARAM_STR);
         $query->bindParam(':Fname', $Fname, PDO::PARAM_STR);
