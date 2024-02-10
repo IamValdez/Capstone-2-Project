@@ -1,22 +1,31 @@
 <?php
 session_start();
 error_reporting(0);
-include 'includes/dbconnection.php';
+include('includes/dbconnection.php');
+if (strlen($_SESSION['famsid']) == 0) {
+    header('location:logout.php');
+} else {
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>All Appointment Detail</title>
     <link rel="icon" href="images/logo.jpg">
+
     <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
+    <!-- build:css assets/css/app.min.css -->
     <link rel="stylesheet" href="libs/bower/animate.css/animate.min.css">
     <link rel="stylesheet" href="libs/bower/fullcalendar/dist/fullcalendar.min.css">
     <link rel="stylesheet" href="libs/bower/perfect-scrollbar/css/perfect-scrollbar.css">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/core.css">
     <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- endbuild -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900,300">
     <script src="libs/bower/breakpoints.js/dist/breakpoints.min.js"></script>
     <script>
@@ -25,90 +34,117 @@ include 'includes/dbconnection.php';
 </head>
 
 <body class="menubar-left menubar-unfold menubar-light theme-primary">
-    <?php include_once 'includes/student-header.php';?>
-    <?php include_once 'includes/student-sidebar.php';?>
+    <!--============= start main area -->
 
+    <?php include_once('includes/student-header.php'); ?>
+
+    <?php include_once('includes/student-sidebar.php'); ?>
+
+    <!-- APP MAIN ==========-->
     <main id="app-main" class="app-main">
-        <!-- BREAD CRUMBS -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/FAMS/fams/admin/signup.php">Sidebar</a></li>
-                <li class="breadcrumb-item active" aria-current="page">View Appointment</li>
-            </ol>
-        </nav>
         <div class="wrap">
             <section class="app-content">
                 <div class="row">
+
+                    <!-- DOM dataTable -->
                     <div class="col-md-12">
                         <div class="widget">
+
                             <header class="widget-header">
                                 <div class="col-lg-3 col-10">
-                                    <input id="searchdata" type="text" name="searchdata" required="true" class="form-control" placeholder="Search Student Appointment...">
+                                    <form action="" method="post">
+                                        <input id="searchdata" type="text" name="searchdata" class="form-control" placeholder="Search Appointments..." required="true">
+                                        <br>
+                                        <button type="submit" name="search" class="btn btn-primary">Search</button>
+                                    </form>
                                 </div>
-                            </header>
+
+                            </header><!-- .widget-header -->
                             <hr class="widget-separator">
                             <div class="widget-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">S.No</th>
-                                                <th class="text-center">Faculty ID</th>
-                                                <th class="text-center">Appointment Number</th>
-                                                <th class="text-center">Email</th>
-                                                <th class="text-center">Appointment Date</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Action</th>
+                                                <th>S.No</th>
+                                                <th>Appointment Number</th>
+                                                <th>Student Name</th>
+                                                <th>Mobile Number</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            <?php
-                                            $facid = $_SESSION['famsid'];
-                                            $emailToFilter = 'cjvaldez152@gmail.com'; // Set the email to filter
-                                            $sql = "SELECT * FROM tblappointment WHERE Email = :email";
+                                            <?php 
+                                            $facid = $_SESSION['famsemailid'];
+                                            $sql = "SELECT * FROM tblappointment WHERE user_ID = :facid";
                                             $query = $dbh->prepare($sql);
-                                            $query->bindParam(':email', $emailToFilter, PDO::PARAM_STR);
+                                            $query->bindParam(':facid', $facid, PDO::PARAM_STR);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-
-                                            $cnt = 1;
-                                            if ($query->rowCount() > 0) {
-                                                foreach ($results as $row) {?>
+                                            $cnt=1;
+                                            if($query->rowCount() > 0)
+                                            {
+                                                foreach($results as $row)
+                                                {               
+                                            ?>
                                                     <tr>
-                                                        <td class="text-center"><?php echo htmlentities($cnt); ?></td>
-                                                        <td><?php echo htmlentities($row->Faculty); ?></td>
-                                                        <td class="text-center"><?php echo htmlentities($row->AppointmentNumber); ?></td>
-                                                        <td><?php echo htmlentities($row->Email); ?></td> 
-                                                        <td class="text-center"><?php echo htmlentities($row->AppointmentDate); ?></td>
-                                                        <?php if ($row->Status == "") {?>
-                                                            <td class="text-center"><?php echo "Not Updated"; ?></td>
-                                                        <?php } else {?>
-                                                            <td><?php echo htmlentities($row->Status); ?></td>
-                                                        <?php }?>
+                                                        <td><?php echo htmlentities($cnt);?></td>
+                                                        <td><?php echo htmlentities($row->AppointmentNumber);?></td>
+                                                        <td><?php echo htmlentities($row->Name);?></td>
+                                                        <td><?php echo htmlentities($row->MobileNumber);?></td>
+                                                        <td><?php echo htmlentities($row->Email);?></td>
+                                                        <?php if($row->Status==""){ ?>
+                                                            <td class="text-center"><?php echo "Pending"; ?></td>
+                                                        <?php } else { ?>
+                                                            <td class="text-center"><?php echo htmlentities($row->Status);?></td>
+                                                        <?php } ?>             
                                                         <td class="text-center">
-                                                            <a href="#?editid=<?php echo htmlentities($row->ID); ?>&&aptid=<?php echo htmlentities($row->AppointmentNumber); ?>" class="btn btn-primary">Edit</a>
+                                                            <button type="button" onclick="deleteAppointment(<?php echo htmlentities($row->ID); ?>)" class="btn btn-primary">Delete</button>
                                                         </td>
                                                     </tr>
-                                                    <?php $cnt = $cnt + 1;
+                                            <?php 
+                                                    $cnt=$cnt+1;
                                                 }
-                                            }?>
+                                            } 
+                                            ?>
+
                                         </tbody>
+
                                     </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+                            </div><!-- .widget-body -->
+                        </div><!-- .widget -->
+                    </div><!-- END column -->
 
-        <?php include_once 'includes/footer.php';?>
+
+                </div><!-- .row -->
+            </section><!-- .app-content -->
+        </div><!-- .wrap -->
+        <!-- APP FOOTER -->
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <?php include_once('includes/footer.php');?>
+        <!-- /#app-footer -->
     </main>
+    <!--========== END app main -->
 
-    <?php include_once 'includes/customizer.php';?>
+    <!-- APP CUSTOMIZER -->
+    <?php include_once('includes/customizer.php'); ?>
 
+
+    <!-- build:js assets/js/core.min.js -->
     <script src="libs/bower/jquery/dist/jquery.js"></script>
     <script src="libs/bower/jquery-ui/jquery-ui.min.js"></script>
     <script src="libs/bower/jQuery-Storage-API/jquery.storageapi.min.js"></script>
@@ -116,13 +152,65 @@ include 'includes/dbconnection.php';
     <script src="libs/bower/jquery-slimscroll/jquery.slimscroll.js"></script>
     <script src="libs/bower/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
     <script src="libs/bower/PACE/pace.min.js"></script>
+    <!-- endbuild -->
 
+    <!-- build:js assets/js/app.min.js -->
     <script src="assets/js/library.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/app.js"></script>
-
+    <!-- endbuild -->
     <script src="libs/bower/moment/moment.js"></script>
     <script src="libs/bower/fullcalendar/dist/fullcalendar.min.js"></script>
     <script src="assets/js/fullcalendar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        // Function to handle deletion confirmation
+        function deleteAppointment(appointmentId) {
+            // Display SweetAlert confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#9a3b3b',
+                cancelButtonColor: '#sd33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms deletion, send AJAX request to delete the appointment
+                    $.ajax({
+                        url: 'delete_ajax.php', // Replace 'your_php_file.php' with the path to your PHP file
+                        type: 'POST',
+                        data: { delete_appointment: true, appointment_id: appointmentId },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                // If deletion is successful, display success message
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Appointment has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    // Reload the page to reflect changes
+                                    location.reload();
+                                });
+                            } else {
+                                // If deletion fails, display error message
+                                Swal.fire(
+                                    'Error!',
+                                    'Failed to delete appointment. Please try again later.',
+                                    'error'
+                                );
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
 </body>
+
 </html>
+
+
+<?php } ?>

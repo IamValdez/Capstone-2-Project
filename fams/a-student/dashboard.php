@@ -80,26 +80,24 @@ window.addEventListener('popstate', function () {
 <div class="col-md-4 col-sm-3">
     <div class="widget stats-widget">
         <div class="widget-body clearfix">
-
-            <?php 
-            $facid = $_SESSION['famsid'];
-            $sql = "SELECT * FROM tblappointment WHERE Status='Approved' AND Faculty=:facid";
-            $query = $dbh->prepare($sql);
-            $query->bindParam(':facid', $facid, PDO::PARAM_STR);
-            $query->execute();
-            $results = $query->fetchAll(PDO::FETCH_OBJ);
-            $totappapt = $query->rowCount();
-            ?>
-
             <div class="pull-left">
-                <h3 class="widget-title text-success"><span class="counter" data-plugin="counterUp"><?php echo htmlentities($totappapt);?></span></h3>
-                <small class="text-color">Total Approved</small>
+                <?php 
+                $facid = $_SESSION['famsemailid'];
+                $sql = "SELECT * FROM tblappointment WHERE Status='approved' AND user_ID=:facid";
+                $query = $dbh->prepare($sql);
+                $query->bindParam(':facid', $facid, PDO::PARAM_STR);
+                $query->execute();
+                $results = $query->fetchAll(PDO::FETCH_OBJ);
+                $totncanapt = $query->rowCount();
+                ?>
+                <h3 class="widget-title text-success"><span class="counter" data-plugin="counterUp"><?php echo htmlentities($totncanapt);?></span></h3>
+                <small class="text-color">Cancelled Appointment</small>
             </div>
-            <span class="pull-right big-icon watermark"><i class="fa fa-ban"></i></span>
+            <span class="pull-right big-icon watermark"><i class="fa fa-unlock-alt"></i></span>
         </div>
         <footer class="widget-footer bg-success">
-            <a href="approved-appointment.php"><small> View Detail</small></a>
-            <span class="small-chart pull-right" data-plugin="sparkline" data-options="[1,2,3,5,4], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"></span>
+            <a href="cancelled-appointment.php"><small> View Detail</small></a>
+            <span class="small-chart pull-right" data-plugin="sparkline" data-options="[2,4,3,4,3], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"></span>
         </footer>
     </div><!-- .widget -->
 </div>
@@ -108,14 +106,15 @@ window.addEventListener('popstate', function () {
 
 
 
+
 			
-			<div class="col-md-4 col-sm-3">
+<div class="col-md-4 col-sm-3">
     <div class="widget stats-widget">
         <div class="widget-body clearfix">
             <div class="pull-left">
                 <?php 
-                $facid = $_SESSION['famsid'];
-                $sql = "SELECT * FROM tblappointment WHERE Status='Cancelled' AND Faculty=:facid";
+                $facid = $_SESSION['famsemailid'];
+                $sql = "SELECT * FROM tblappointment WHERE Status='Cancelled' AND user_ID=:facid";
                 $query = $dbh->prepare($sql);
                 $query->bindParam(':facid', $facid, PDO::PARAM_STR);
                 $query->execute();
@@ -133,6 +132,7 @@ window.addEventListener('popstate', function () {
         </footer>
     </div><!-- .widget -->
 </div>
+
 
 
 
@@ -273,7 +273,7 @@ $(document).ready(function() {
                 url: 'get_events.php',
                 type: 'POST',
                 data: {
-                    facid: '<?php echo $_SESSION['famsid']; ?>',
+                    facid: '<?php echo $_SESSION['famsemailid']; ?>',
                     start: start,
                     end: end
                 },

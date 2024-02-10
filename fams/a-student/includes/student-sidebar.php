@@ -1,14 +1,4 @@
-<aside id="menubar" class="menubar light">
-  <div class="app-user">
-    <div class="media">
-      <div class="media-left">
-      <div class="avatar avatar-md avatar-circle">
-          <a href="javascript:void(0)"><img class="img-responsive" src="../images/title/student-icon.png" alt="avatar"/></a>
-        </div><!-- .avatar -->
-      </div>
-      <div class="media-body">
-        <div class="foldable">
-          <?php
+<?php
 $eid=$_SESSION['famsid'];
 $sql="SELECT FullName,user_ID from  tblfaculty where ID=:eid";
 $query = $dbh -> prepare($sql);
@@ -21,6 +11,19 @@ foreach($results as $row)
 $email=$row->user_ID;   
 $fname=$row->FullName;     
 }   ?>
+
+
+<aside id="menubar" class="menubar light">
+  <div class="app-user">
+    <div class="media">
+      <div class="media-left">
+      <div class="avatar avatar-md avatar-circle">
+          <a href="javascript:void(0)"><img class="img-responsive" src="../images/title/student-icon.png" alt="avatar"/></a>
+        </div><!-- .avatar -->
+      </div>
+      <div class="media-body">
+        <div class="foldable">
+     
           <h5><a href="javascript:void(0)" class="username"><?php  echo $fname ;?></a></h5>
           <ul>
             <li class="dropdown">

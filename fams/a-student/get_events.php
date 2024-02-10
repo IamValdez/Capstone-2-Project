@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $end = $_POST['end'];
 
     // Query to fetch appointments for the specified user and within the calendar date range
-    $sql = "SELECT * FROM tblappointment WHERE ID = :facid AND AppointmentDate BETWEEN :start AND :end";
+    $sql = "SELECT * FROM tblappointment WHERE famsemailid = :facid AND AppointmentDate BETWEEN :start AND :end";
+
     $query = $dbh->prepare($sql);
     $query->bindParam(':facid', $facid, PDO::PARAM_STR);
     $query->bindParam(':start', $start, PDO::PARAM_STR);
