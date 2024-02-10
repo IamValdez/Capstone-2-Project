@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #9a3b3b, #ffffff);
+  /* Violet to white gradient */
+  background-size: 100% 100%;
+  /* Ensure the gradient covers the entire body */
+  overflow: hidden;
+  /* Hide any content that overflows the body */
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* Add a subtle box shadow */
+}
+
+.password-group {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

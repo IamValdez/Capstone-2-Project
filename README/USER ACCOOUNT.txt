@@ -1,0 +1,13 @@
+STUDENT ACCOUNT: 
+
+username: AY2024-00001
+password: svcc2024
+
+FACULTY ACCOUNT: 
+username: sabao@gmail.com
+password: sabao
+
+ADMIN ACCOUNT:
+
+username: admin@gmail.com
+password: password

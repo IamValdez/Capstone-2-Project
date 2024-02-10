@@ -1,0 +1,75 @@
+.graphBox {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 30px;
+  min-height: 200px;
+}
+
+.box {
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+}
+
+.dropdowm {
+  position: absolute;
+  top: 18px;
+  right: 34px;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #9a3b3b;
+  color: white;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dropbtn:hover {
+  background-color: #833636;
+}
+
+.dropbtm {
+  background-color: #9a3b3b;
+  margin-right: 10px;
+  color: white;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.dropdowm-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdowm-content a {
+  color: black;
+  padding: 12px 16px;
+  display: block;
+  text-decoration: none;
+}
+
+.dropdowm-content a:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
